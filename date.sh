@@ -5,6 +5,10 @@ function showHelp {
   echo "--date: Wyświetla aktualną datę."
   echo "--logs [liczba]: Tworzy automatycznie podaną liczbę plików logx.txt, gdzie x to numer pliku od 1 do podanej liczby."
   echo "--help: Wyświetla wszystkie dostępne opcje."
+  echo "--init: Klonuje całe repozytorium do katalogu, w którym został uruchomiony, i ustawia ścieżkę w zmiennej środowiskowej PATH."
+  echo "--error [liczba], -e [liczba]: Tworzy podaną liczbę plików errorx/errorx.txt, gdzie x to numer pliku od 1 do podanej liczby. Bez podania liczby tworzy 100 plików."
+  echo "-d, -h, -l: Skrócone wersje flag --date, --help, --logs."
+  echo "Uwaga: --init nie będzie mergowane."
 }
 function createFilesWithDate {
   me=$(basename "$0")

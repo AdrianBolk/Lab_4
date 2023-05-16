@@ -17,14 +17,22 @@ function createFilesWithDate {
   done
 }
 
+function cloneRepository {
+  current_directory=$(pwd)
+  git clone . "$current_directory"
+  echo "Repozytorium zostało sklonowane do $current_directory"
+  export PATH="$PATH:$current_directory"
+  echo "Ścieżka została ustawiona w zmiennej środowiskowej PATH"
+}
+
 while test $# -gt 0; do
   case "$1" in
-    --date)
+    --date | -d)
       shift
       DATE=$(date)
       echo "Aktualna data: ${DATE}"
       ;;
-    --logs)
+    --logs | -l)
       shift
       if [[ $1 =~ ^[0-9]+$ ]]; then
         createFilesWithDate $1
@@ -33,10 +41,23 @@ while test $# -gt 0; do
       fi
       shift
       ;;
-    --help)
+    --help | -h)
     shift
     showHelp
     ;;
+  --init)
+    shift
+    cloneRepository
+    ;;
+    --error | -e)
+    shift
+    if [[ $1 =~ ^[0-9]+$ ]]; then
+      createFilesWithError $1
+    else
+      createFilesWithError 100
+     fi
+     shift
+     ;;
     *)
       break
       ;;

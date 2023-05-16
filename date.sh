@@ -17,12 +17,12 @@ function createFilesWithDate {
   done
 }
 
-function cloneRepository {
-  current_directory=$(pwd)
-  git clone . "$current_directory"
-  echo "Repozytorium zostało sklonowane do $current_directory"
-  export PATH="$PATH:$current_directory"
-  echo "Ścieżka została ustawiona w zmiennej środowiskowej PATH"
+function createErrorFiles {
+  me=$(basename "$0")
+  for ((i=1; i<=$1; i++)); do
+    mkdir -p "error${i}"
+    echo "error${i}/error${i}.txt $(date) $me" > "error${i}/error${i}.txt"
+  done
 }
 
 while test $# -gt 0; do
@@ -41,23 +41,19 @@ while test $# -gt 0; do
       fi
       shift
       ;;
-    --help | -h)
-    shift
-    showHelp
-    ;;
-  --init)
-    shift
-    cloneRepository
-    ;;
     --error | -e)
     shift
     if [[ $1 =~ ^[0-9]+$ ]]; then
-      createFilesWithError $1
+      createErrorFiles $1
     else
-      createFilesWithError 100
+      echo "Błędny argument. Oczekiwano liczby plików."
      fi
      shift
      ;;
+    --help | -h)
+      shift
+      showHelp
+      ;;
     *)
       break
       ;;

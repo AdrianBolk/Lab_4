@@ -1,0 +1,1 @@
+error12/error12.txt Tue May 16 16:59:03     2023 date.sh

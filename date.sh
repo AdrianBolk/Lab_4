@@ -1,5 +1,11 @@
 #!/bin/bash
 
+function showHelp {
+  echo "Dostępne opcje skryptu:"
+  echo "--date: Wyświetla aktualną datę."
+  echo "--logs [liczba]: Tworzy automatycznie podaną liczbę plików logx.txt, gdzie x to numer pliku od 1 do podanej liczby."
+  echo "--help: Wyświetla wszystkie dostępne opcje."
+}
 function createFilesWithDate {
   me=$(basename "$0")
   for ((i=1; i<=$1; i++)); do
@@ -23,6 +29,10 @@ while test $# -gt 0; do
       fi
       shift
       ;;
+    --help)
+    shift
+    showHelp
+    ;;
     *)
       break
       ;;

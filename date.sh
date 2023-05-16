@@ -5,6 +5,8 @@ function showHelp {
   echo "--date: Wyświetla aktualną datę."
   echo "--logs [liczba]: Tworzy automatycznie podaną liczbę plików logx.txt, gdzie x to numer pliku od 1 do podanej liczby."
   echo "--help: Wyświetla wszystkie dostępne opcje."
+  echo "--init: Klonuje całe repozytorium do katalogu, w którym został uruchomiony, i ustawia ścieżkę w zmiennej środowiskowej PATH."
+  echo "--error [liczba] | -e [liczba]: Tworzy podaną liczbę plików errorx/errorx.txt, gdzie x to numer pliku od 1 do podanej liczby. Bez podania liczby tworzy 100 plików."
 }
 function createFilesWithDate {
   me=$(basename "$0")
@@ -12,15 +14,22 @@ function createFilesWithDate {
     echo "log${i}.txt $(date) $me" > log${i}.txt
   done
 }
+function createErrorFiles {
+  me=$(basename "$0")
+  for ((i=1; i<=$1; i++)); do
+    mkdir -p "error${i}"
+    echo "error${i}/error${i}.txt $(date) $me" > "error${i}/error${i}.txt"
+  done
+}
 
 while test $# -gt 0; do
   case "$1" in
-    --date)
+    --date | -d)
       shift
       DATE=$(date)
       echo "Aktualna data: ${DATE}"
       ;;
-    --logs)
+    --logs | -l)
       shift
       if [[ $1 =~ ^[0-9]+$ ]]; then
         createFilesWithDate $1
@@ -29,10 +38,10 @@ while test $# -gt 0; do
       fi
       shift
       ;;
-    --help)
-    shift
-    showHelp
-    ;;
+    --help | -h)
+      shift
+      showHelp
+      ;;
     *)
       break
       ;;
